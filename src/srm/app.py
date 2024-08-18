@@ -9,37 +9,50 @@ MIN_EQUITY = 0.0
 MAX_EQUITY = 21.0
 
 
-def update(key: str) -> None:
+def update(key: str, locked: bool) -> None:
     """Update the min/max values of a slider.
 
     Values are updated to reflect changes made in either of the other
     two sliders. The totals of all three sliders must equal three (3)
     "standard deviations".
     """
-    match key:
-        case "profit":
+    match key, locked:
+        case "profit", False:
             ratio = st.session_state.profit / MAX_PROFIT
-            st.session_state.revenue = (
-                RANGE_REVENUE * (1 - ratio) / 2 + MIN_REVENUE
-            )
-            st.session_state.equity = MAX_EQUITY * (1 - ratio) / 2
+            if not st.session_state.revenue_lock:
+                st.session_state.revenue = (
+                    RANGE_REVENUE * (1 - ratio) / 2 + MIN_REVENUE
+                )
 
-        case "revenue":
+            if not st.session_state.equity_lock:
+                st.session_state.equity = MAX_EQUITY * (1 - ratio) / 2
+
+        case "revenue", False:
             # Revenue does *not* start at 0. Need to reduce the value
             # by the min and then normalize by the range.
             ratio = (st.session_state.revenue - MIN_REVENUE) / RANGE_REVENUE
-            st.session_state.profit = MAX_PROFIT * (1 - ratio) / 2
-            st.session_state.equity = MAX_EQUITY * (1 - ratio) / 2
+            if not st.session_state.profit_lock:
+                st.session_state.profit = MAX_PROFIT * (1 - ratio) / 2
 
-        case "equity":
+            if not st.session_state.equity_lock:
+                st.session_state.equity = MAX_EQUITY * (1 - ratio) / 2
+
+        case "equity", False:
             ratio = st.session_state.equity / MAX_EQUITY
-            st.session_state.profit = MAX_PROFIT * (1 - ratio) / 2
-            st.session_state.revenue = (
-                RANGE_REVENUE * (1 - ratio) / 2 + MIN_REVENUE
-            )
+            if not st.session_state.profit_lock:
+                st.session_state.profit = MAX_PROFIT * (1 - ratio) / 2
+
+            if not st.session_state.revenue_lock:
+                st.session_state.revenue = (
+                    RANGE_REVENUE * (1 - ratio) / 2 + MIN_REVENUE
+                )
 
 
-with st.container() as row0:
+profit_col0, profit_col1 = st.columns([0.2, 0.8])
+with profit_col0:
+    profit_lock = st.checkbox(label="Lock", key="profit_lock")
+
+with profit_col1:
     profit_share = st.slider(
         label="Profit Share",
         min_value=MIN_PROFIT,
@@ -49,10 +62,15 @@ with st.container() as row0:
         format="%0.1f%%",
         key="profit",
         on_change=update,
-        args=("profit",),
+        args=("profit", profit_lock),
+        disabled=profit_lock,
     )
 
-with st.container() as row1:
+revenue_col0, revenue_col1 = st.columns([0.2, 0.8])
+with revenue_col0:
+    revenue_lock = st.checkbox(label="Lock", key="revenue_lock")
+
+with revenue_col1:
     monthly_revenue = st.slider(
         label="Monthly Revenue",
         min_value=MIN_REVENUE,
@@ -63,10 +81,15 @@ with st.container() as row1:
         step=100,
         key="revenue",
         on_change=update,
-        args=("revenue",),
+        args=("revenue", revenue_lock),
+        disabled=revenue_lock,
     )
 
-with st.container() as row2:
+equity_col0, equity_col1 = st.columns([0.2, 0.8])
+with equity_col0:
+    equity_lock = st.checkbox(label="Lock", key="equity_lock")
+
+with equity_col1:
     equity = st.slider(
         label="Equity",
         min_value=MIN_EQUITY,
@@ -76,5 +99,6 @@ with st.container() as row2:
         format="%0.1f%%",
         key="equity",
         on_change=update,
-        args=("equity",),
+        args=("equity", equity_lock),
+        disabled=equity_lock,
     )

@@ -20,7 +20,12 @@ def update(key: str) -> None:
 
 
 profit_share = st.slider(
-    "Profit Share", min_value=0.0, max_value=30.0, step=0.1, key="profit"
+    "Profit Share",
+    min_value=0.0,
+    max_value=30.0,
+    step=0.1,
+    format="%0.1f%%",
+    key="profit",
 )
 monthly_revenue = st.slider(
     "Monthly Revenue",
@@ -30,5 +35,10 @@ monthly_revenue = st.slider(
     key="revenue",
 )
 equity = st.slider(
-    "Equity", min_value=0.0, max_value=21.0, step=0.1, key="equity"
+    "Equity",
+    min_value=0.0,
+    max_value=21.0,
+    step=0.1,
+    format="%0.1f%%",
+    key="equity",
 )

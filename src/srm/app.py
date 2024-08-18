@@ -9,37 +9,56 @@ MIN_EQUITY = 0.0
 MAX_EQUITY = 21.0
 
 
-def update(key: str, locked: bool) -> None:
+def update(key: str) -> None:
     """Update the min/max values of a slider.
 
     Values are updated to reflect changes made in either of the other
     two sliders. The totals of all three sliders must equal three (3)
     "standard deviations".
     """
-    match key, locked:
-        case "profit", False:
+    match key:
+        case "profit":
             ratio = st.session_state.profit / MAX_PROFIT
-            if not st.session_state.revenue_lock:
+            if st.session_state.revenue_lock:
+                ratio = (
+                    st.session_state.revenue - MIN_REVENUE
+                ) / RANGE_REVENUE
+                temp_max_profit = MAX_PROFIT * (1 - ratio)
+                if st.session_state.profit > temp_max_profit:
+                    st.session_state.profit = temp_max_profit
+
+                ratio = st.session_state.profit / temp_max_profit
+
+            else:
                 st.session_state.revenue = (
                     RANGE_REVENUE * (1 - ratio) / 2 + MIN_REVENUE
                 )
 
-            if not st.session_state.equity_lock:
+            if st.session_state.equity_lock:
+                ...
+
+            else:
                 st.session_state.equity = MAX_EQUITY * (1 - ratio) / 2
 
-        case "revenue", False:
+        case "revenue":
             # Revenue does *not* start at 0. Need to reduce the value
             # by the min and then normalize by the range.
             ratio = (st.session_state.revenue - MIN_REVENUE) / RANGE_REVENUE
-            if not st.session_state.profit_lock:
+            if st.session_state.profit_lock:
+                ...
+
+            else:
                 st.session_state.profit = MAX_PROFIT * (1 - ratio) / 2
 
             if not st.session_state.equity_lock:
                 st.session_state.equity = MAX_EQUITY * (1 - ratio) / 2
 
-        case "equity", False:
+        case "equity":
             ratio = st.session_state.equity / MAX_EQUITY
-            if not st.session_state.profit_lock:
+            if st.session_state.profit_lock:
+                ...
+
+            else:
                 st.session_state.profit = MAX_PROFIT * (1 - ratio) / 2
 
             if not st.session_state.revenue_lock:
@@ -62,7 +81,7 @@ with profit_col1:
         format="%0.1f%%",
         key="profit",
         on_change=update,
-        args=("profit", profit_lock),
+        args=("profit",),
         disabled=profit_lock,
     )
 
@@ -79,9 +98,10 @@ with revenue_col1:
             round((MAX_REVENUE - MIN_REVENUE) * 1 / 3, -3) + MIN_REVENUE
         ),
         step=100,
+        format="$%f",
         key="revenue",
         on_change=update,
-        args=("revenue", revenue_lock),
+        args=("revenue",),
         disabled=revenue_lock,
     )
 
@@ -99,6 +119,6 @@ with equity_col1:
         format="%0.1f%%",
         key="equity",
         on_change=update,
-        args=("equity", equity_lock),
+        args=("equity",),
         disabled=equity_lock,
     )

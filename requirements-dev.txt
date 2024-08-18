@@ -1,3 +1,4 @@
 isort<6
+mypy<2
 pre-commit<4
 ruff<1

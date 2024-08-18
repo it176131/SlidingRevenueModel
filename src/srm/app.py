@@ -45,7 +45,12 @@ def update(key: str) -> None:
             # by the min and then normalize by the range.
             ratio = (st.session_state.revenue - MIN_REVENUE) / RANGE_REVENUE
             if st.session_state.profit_lock:
-                ...
+                ratio = st.session_state.profit / MAX_PROFIT
+                temp_max_revenue = RANGE_REVENUE * (1 - ratio) + MIN_REVENUE
+                if st.session_state.revenue > temp_max_revenue:
+                    st.session_state.revenue = int(temp_max_revenue)
+
+                ratio = st.session_state.revenue / temp_max_revenue
 
             else:
                 st.session_state.profit = MAX_PROFIT * (1 - ratio) / 2

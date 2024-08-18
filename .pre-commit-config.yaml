@@ -1,0 +1,23 @@
+repos:
+  - repo: local
+    hooks:
+      - id: ruff-check
+        name: ruff-check
+        entry: ruff check
+        language: python
+        types: [python]
+      - id: ruff-format
+        name: ruff-format
+        entry: ruff format
+        language: python
+        types: [python]
+      - id: isort
+        name: isort
+        entry: isort
+        language: python
+        types: [python]
+      - id: mypy
+        name: mypy
+        entry: mypy
+        language: python
+        types: [python]

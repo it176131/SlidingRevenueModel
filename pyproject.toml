@@ -6,6 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "sliding-revenue-model"
 description = "A demo web app of a sliding revenue model."
 readme = "README.md"
+requires-python = ">= 3.12"
 dynamic = ["version", "dependencies"]
 authors = [
     {name = "Ian Thompson", email = "ianiat11@gmail.com"}

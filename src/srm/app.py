@@ -39,35 +39,42 @@ def update(key: str) -> None:
             )
 
 
-profit_share = st.slider(
-    label="Profit Share",
-    min_value=MIN_PROFIT,
-    max_value=MAX_PROFIT,
-    value=MAX_PROFIT * 1 / 3,
-    step=0.1,
-    format="%0.1f%%",
-    key="profit",
-    on_change=update,
-    args=("profit",),
-)
-monthly_revenue = st.slider(
-    label="Monthly Revenue",
-    min_value=MIN_REVENUE,
-    max_value=MAX_REVENUE,
-    value=int(round((MAX_REVENUE - MIN_REVENUE) * 1 / 3, -3)) + MIN_REVENUE,
-    step=100,
-    key="revenue",
-    on_change=update,
-    args=("revenue",),
-)
-equity = st.slider(
-    label="Equity",
-    min_value=MIN_EQUITY,
-    max_value=MAX_EQUITY,
-    value=(MAX_EQUITY - MIN_EQUITY) * 1 / 3,
-    step=0.1,
-    format="%0.1f%%",
-    key="equity",
-    on_change=update,
-    args=("equity",),
-)
+with st.container() as row0:
+    profit_share = st.slider(
+        label="Profit Share",
+        min_value=MIN_PROFIT,
+        max_value=MAX_PROFIT,
+        value=MAX_PROFIT * 1 / 3,
+        step=0.1,
+        format="%0.1f%%",
+        key="profit",
+        on_change=update,
+        args=("profit",),
+    )
+
+with st.container() as row1:
+    monthly_revenue = st.slider(
+        label="Monthly Revenue",
+        min_value=MIN_REVENUE,
+        max_value=MAX_REVENUE,
+        value=int(
+            round((MAX_REVENUE - MIN_REVENUE) * 1 / 3, -3) + MIN_REVENUE
+        ),
+        step=100,
+        key="revenue",
+        on_change=update,
+        args=("revenue",),
+    )
+
+with st.container() as row2:
+    equity = st.slider(
+        label="Equity",
+        min_value=MIN_EQUITY,
+        max_value=MAX_EQUITY,
+        value=(MAX_EQUITY - MIN_EQUITY) * 1 / 3,
+        step=0.1,
+        format="%0.1f%%",
+        key="equity",
+        on_change=update,
+        args=("equity",),
+    )

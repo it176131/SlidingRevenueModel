@@ -4,6 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "sliding-revenue-model"
+description = "A demo web app of a sliding revenue model."
+readme = "README.md"
 dynamic = ["version", "dependencies"]
 authors = [
     {name = "Ian Thompson", email = "ianiat11@gmail.com"}

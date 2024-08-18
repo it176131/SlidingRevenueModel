@@ -5,4 +5,9 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "sliding-revenue-model"
 dynamic = ["version", "dependencies"]
-
+authors = [
+    {name = "Ian Thompson", email = "ianiat11@gmail.com"}
+]
+maintainers = [
+    {name = "Ian Thompson", email = "ianiat11@gmail.com"}
+]

@@ -30,7 +30,7 @@ line-length = 79
 indent-width = 4
 
 [tool.ruff.lint]
-select = ["E", "F"]
+select = ["E", "F", "W"]
 
 [tool.isort]
 profile = "black"

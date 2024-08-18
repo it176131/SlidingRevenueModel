@@ -13,3 +13,8 @@ authors = [
 maintainers = [
     {name = "Ian Thompson", email = "ianiat11@gmail.com"}
 ]
+classifiers = [
+    "Development Status :: 1 - Planning",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+]

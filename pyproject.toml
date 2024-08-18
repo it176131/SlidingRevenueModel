@@ -24,3 +24,10 @@ classifiers = [
 version = {attr = "srm.__version__"}
 dependencies = {file = ["requirements.txt"]}
 optional-dependencies = {file = ["requirements-dev.txt"]}
+
+[tool.ruff]
+line-length = 79
+indent-width = 4
+
+[tool.ruff.lint]
+select = ["E", "F"]

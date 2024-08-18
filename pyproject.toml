@@ -3,6 +3,6 @@ requires = ["setuptools >= 72.2.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
+name = "sliding-revenue-model"
 dynamic = ["version"]
-
 

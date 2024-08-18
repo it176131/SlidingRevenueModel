@@ -4,5 +4,5 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "sliding-revenue-model"
-dynamic = ["version"]
+dynamic = ["version", "dependencies"]
 

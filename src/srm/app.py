@@ -61,7 +61,12 @@ def update(key: str) -> None:
         case "equity":
             ratio = st.session_state.equity / MAX_EQUITY
             if st.session_state.profit_lock:
-                ...
+                ratio = st.session_state.equity / MAX_EQUITY
+                temp_max_equity = MAX_EQUITY * (1 - ratio)
+                if st.session_state.equity > temp_max_equity:
+                    st.session_state.equity = temp_max_equity
+
+                ratio = st.session_state.equity / temp_max_equity
 
             else:
                 st.session_state.profit = MAX_PROFIT * (1 - ratio) / 2
